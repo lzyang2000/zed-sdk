@@ -12,8 +12,8 @@ from ultralytics import YOLO
 from threading import Lock, Thread
 from time import sleep
 
-import ogl_viewer.viewer as gl
-import cv_viewer.tracking_viewer as cv_viewer
+# import ogl_viewer.viewer as gl
+# import cv_viewer.tracking_viewer as cv_viewer
 
 lock = Lock()
 run_signal = False
