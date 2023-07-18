@@ -172,6 +172,10 @@ def main():
             zed.ingest_custom_box_objects(detections)
             lock.release()
             zed.retrieve_objects(objects, obj_runtime_param)
+            for obj in objects.object_list:
+                print("{} {}".format(obj.id, obj.position))
+                object_3Dbbox = obj.bounding_box;
+                print("3D bbox:", object_3Dbbox)
 
             # # -- Display
             # # Retrieve display data
