@@ -13,7 +13,7 @@ from threading import Lock, Thread
 from time import sleep
 
 # import ogl_viewer.viewer as gl
-# import cv_viewer.tracking_viewer as cv_viewer
+import cv_viewer.tracking_viewer as cv_viewer
 
 lock = Lock()
 run_signal = False
@@ -140,15 +140,15 @@ def main():
     image_left = sl.Mat()
     # # Utilities for 2D display
     display_resolution = sl.Resolution(min(camera_res.width, 1280), min(camera_res.height, 720))
-    # image_scale = [display_resolution.width / camera_res.width, display_resolution.height / camera_res.height]
+    image_scale = [display_resolution.width / camera_res.width, display_resolution.height / camera_res.height]
     image_left_ocv = np.full((display_resolution.height, display_resolution.width, 4), [245, 239, 239, 255], np.uint8)
 
     # Utilities for tracks view
-    # camera_config = camera_infos.camera_configuration
-    # tracks_resolution = sl.Resolution(400, display_resolution.height)
-    # track_view_generator = cv_viewer.TrackingViewer(tracks_resolution, camera_config.fps, init_params.depth_maximum_distance)
-    # track_view_generator.set_camera_calibration(camera_config.calibration_parameters)
-    # image_track_ocv = np.zeros((tracks_resolution.height, tracks_resolution.width, 4), np.uint8)
+    camera_config = camera_infos.camera_configuration
+    tracks_resolution = sl.Resolution(400, display_resolution.height)
+    track_view_generator = cv_viewer.TrackingViewer(tracks_resolution, camera_config.fps, init_params.depth_maximum_distance)
+    track_view_generator.set_camera_calibration(camera_config.calibration_parameters)
+    image_track_ocv = np.zeros((tracks_resolution.height, tracks_resolution.width, 4), np.uint8)
     # Camera pose
     cam_w_pose = sl.Pose()
 
@@ -189,15 +189,15 @@ def main():
             # viewer.updateData(point_cloud_render, objects)
             # # 2D rendering
             np.copyto(image_left_ocv, image_left.get_data())
-            # cv_viewer.render_2D(image_left_ocv, image_scale, objects, obj_param.enable_tracking)
-            # global_image = cv2.hconcat([image_left_ocv, image_track_ocv])
+            cv_viewer.render_2D(image_left_ocv, image_scale, objects, obj_param.enable_tracking)
+            global_image = cv2.hconcat([image_left_ocv, image_track_ocv])
             # # Tracking view
-            # track_view_generator.generate_view(objects, cam_w_pose, image_track_ocv, objects.is_tracked)
+            track_view_generator.generate_view(objects, cam_w_pose, image_track_ocv, objects.is_tracked)
 
-            # cv2.imshow("ZED | 2D View and Birds View", global_image)
-            # key = cv2.waitKey(10)
-            # if key == 27:
-            #     exit_signal = True
+            cv2.imshow("ZED | 2D View and Birds View", global_image)
+            key = cv2.waitKey(10)
+            if key == 27:
+                exit_signal = True
         else:
             exit_signal = True
 
