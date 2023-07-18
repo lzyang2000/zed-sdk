@@ -55,6 +55,7 @@ def detections_to_custom_box(detections, im0):
         obj = sl.CustomBoxObjectData()
         obj.bounding_box_2d = xywh2abcd(xywh, im0.shape)
         obj.label = det.cls
+        print("cls:",det.cls)
         obj.probability = det.conf
         obj.is_grounded = False
         output.append(obj)
