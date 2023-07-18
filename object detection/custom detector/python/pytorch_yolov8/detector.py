@@ -174,7 +174,7 @@ def main():
             zed.retrieve_objects(objects, obj_runtime_param)
             for obj in objects.object_list:
                 # if obj.id == 32:
-                print("id: {}, position: {}".format(obj.id, obj.position))
+                print("label: {}, position: {}".format(obj.label, obj.position))
                 object_3Dbbox = obj.bounding_box;
                 print("3D bbox:", object_3Dbbox)
 
